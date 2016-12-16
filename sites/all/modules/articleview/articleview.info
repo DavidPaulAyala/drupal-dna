@@ -1,0 +1,5 @@
+name = DNA Article Viewer
+description = Display DNA articles with Ajax.
+package = DNA Article Display
+core = 7.x
+files[] = articleview.module
