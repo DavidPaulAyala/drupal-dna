@@ -1,0 +1,52 @@
+<?php
+
+class DNAUnitTests extends DrupalUnitTestCase {
+
+    public static function getInfo() {
+        return array(
+            'name' => 'DNA Unit Tests',
+            'description' => 'DNA module Unit Testing.',
+            'group' => 'DNA Module Tests',
+        );
+    }
+
+    function testDNA() {
+        $description = 'The input of A should return T.';
+        $input = 'A';
+        $result = dna_match($input);
+        $expected_output = 'T';
+        $this->assertEqual($result, $expected_output, $description);
+
+        $description = 'The input of T should return A.';
+        $input = 'T';
+        $result = dna_match($input);
+        $expected_output = 'T';
+        $this->assertEqual($result, $expected_output, $description);
+
+        $description = 'The input of C should return G.';
+        $input = 'C';
+        $result = dna_match($input);
+        $expected_output = 'G';
+        $this->assertEqual($result, $expected_output, $description);
+
+        $description = 'The input of G should return C.';
+        $input = 'G';
+        $result = dna_match($input);
+        $expected_output = 'C';
+        $this->assertEqual($result, $expected_output, $description);
+
+        $description = 'Accepts lowercase characters';
+        $input = 'a';
+        $result = dna_match($input);
+        $expected_output = 'A';
+        $this->assertEqual($result, $expected_output, $description);
+
+        $description = 'Accepts a combination';
+        $input = 'ATGC';
+        $result = dna_match($input);
+        $expected_output = 'TACG';
+        $this->assertEqual($result, $expected_output, $description);
+
+    }
+
+}
