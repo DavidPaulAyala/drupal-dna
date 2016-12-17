@@ -20,7 +20,7 @@ class DNAUnitTests extends DrupalUnitTestCase {
         $description = 'The input of T should return A.';
         $input = 'T';
         $result = dna_match($input);
-        $expected_output = 'T';
+        $expected_output = 'A';
         $this->assertEqual($result, $expected_output, $description);
 
         $description = 'The input of C should return G.';
@@ -38,7 +38,7 @@ class DNAUnitTests extends DrupalUnitTestCase {
         $description = 'Accepts lowercase characters';
         $input = 'a';
         $result = dna_match($input);
-        $expected_output = 'A';
+        $expected_output = 'T';
         $this->assertEqual($result, $expected_output, $description);
 
         $description = 'Accepts a combination';

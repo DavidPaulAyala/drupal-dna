@@ -1,0 +1,76 @@
+<?php
+
+function dna_menu() {
+    $items = array();
+    $items['dna_start'] = array(
+        'title' => 'DNA Module',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('dna_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['dna_results'] = array(
+        'title' => 'Double Helix Completion Results',
+        'page callback' => 'dna_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function dna_form() {
+    $form['dna_input'] = array(
+        '#title' => 'DNA input',
+        '#type' => 'textfield',
+        '#description' => t('Enter the values for your half of the DNA nucleotide sequence. Only include the letters A,C,G,T without punctuation or spaces.'),
+        '#required' => TRUE,
+        '#element_validate' => array('element_validate_acgt_input'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Submit',
+    );
+    return $form;
+}
+
+function element_validate_acgt_input($element) {
+    $user_input = strtoupper($element['#value']);
+    $user_input = str_split($user_input);
+    foreach($user_input as $input) {
+        if(($input != 'A') && ($input != 'C') && ($input != 'G') && ($input != 'T')) {
+            form_set_error('dna_input', 'Invalid character(s) submitted. Please stick with A,T,C,G without punctuation or spaces.');
+        }
+    }
+}
+
+function dna_match($user_input) {
+    $user_input = str_split(strtoupper($user_input));
+    $output = array();
+    foreach ($user_input as $input) {
+        if ($input == 'A') {
+            array_push($output, 'T');
+        } elseif ($input == 'T') {
+            array_push($output, 'A');
+        } elseif ($input == 'C') {
+            array_push($output, 'G');
+        } elseif ($input == 'G') {
+            array_push($output, 'C');
+        }
+    }
+    $output = implode("",$output);
+    return $output;
+}
+
+function dna_form_submit($form, &$form_state) {
+    $user_input = $form_state['values']['dna_input'];
+    $output = dna_match($user_input);
+    $_SESSION['input'] = $user_input;
+    $_SESSION['output'] = $output;
+    $form_state['redirect'] = 'dna_results';
+}
+
+function dna_success() {
+    $output = $_SESSION['output'];
+    $input = $_SESSION['input'];
+    return '<p>Your Nucleotide Sequence: ' . strtoupper($input) . '</p><p>Generated Nucleotide Sequence: ' . $output . '</p>';
+}

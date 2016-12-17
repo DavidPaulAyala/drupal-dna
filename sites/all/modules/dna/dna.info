@@ -1,0 +1,7 @@
+name = DNA Module
+description = Produce the inverse DNA letters to complete a strand.
+package = My Modules
+core = 7.x
+files[] = dna.module
+files[] = dna.test
+dependencies[] = simpletest
