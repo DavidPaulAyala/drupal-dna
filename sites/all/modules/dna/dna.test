@@ -1,11 +1,45 @@
 <?php
 
-class DNAUnitTests extends DrupalUnitTestCase {
+class DNAFunctionalTests extends DrupalWebTestCase {
+
+    public static function getInfo() {
+        return array(
+            'name' => 'DNA Functional Tests',
+            'description' => 'Functional Tests for the DNA module.',
+            'group' => 'DNA Module Tests',
+        );
+    }
+
+    public function setUp() {
+        parent::setUp(array('dna'));
+    }
+
+    public function testValidInput() {
+        $this->drupalGet('dna_start');
+        $this->assertText("DNA Module", 'Form exists and is displayed!');
+
+        $form = array();
+        $form['dna_input'] = 'ATCG';
+        $this->drupalPost('dna_start', $form, t('Submit'));
+        $this->assertText('ATCG', 'Diplays input string');
+        $this->assertText('TAGC', 'Display correct output string');
+    }
+
+    public function testPunctuation() {
+        $form = array();
+        $form['dna_input'] = 'ATC;';
+        $this->drupalPost('dna_start', $form, t('Submit'));
+        $this->assertText('Invalid character(s) submitted. Please stick with A,T,C,G without punctuation or spaces.', 'Punctuation rejected appropriately');
+    }
+}
+
+class DnaTestCase extends DrupalUnitTestCase
+{
 
     public static function getInfo() {
         return array(
             'name' => 'DNA Unit Tests',
-            'description' => 'DNA module Unit Testing.',
+            'description' => 'Unit Tests for the DNA module.',
             'group' => 'DNA Module Tests',
         );
     }
