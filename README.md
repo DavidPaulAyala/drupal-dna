@@ -8,8 +8,7 @@
 
 ## Description
 
-This is a basic fictional website for a bakery, which comes with a buggy custom module.
-Students must fix the module, add their own custom module and a Zen sub-theme.
+This project displays articles about DNA with Ajax and has a custom module which completes nucleotide sequences from information given by users to complete double helix structures.  This module also has functional and unit tests.
 
 ## Setup
 
